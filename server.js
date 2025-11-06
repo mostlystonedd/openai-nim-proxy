@@ -41,8 +41,8 @@ app.get('/health', (req, res) => {
   });
 });
 
-// List models endpoint (OpenAI compatible)
-app.get('/v1/models', (req, res) => {
+// List models endpoint (OpenAI compatible) - support both /v1 and root paths
+app.get(['/v1/models', '/models'], (req, res) => {
   const models = Object.keys(MODEL_MAPPING).map(model => ({
     id: model,
     object: 'model',
@@ -56,8 +56,8 @@ app.get('/v1/models', (req, res) => {
   });
 });
 
-// Chat completions endpoint (main proxy)
-app.post('/v1/chat/completions', async (req, res) => {
+// Chat completions endpoint (main proxy) - support both /v1 and root paths
+app.post(['/v1/chat/completions', '/chat/completions'], async (req, res) => {
   try {
     const { model, messages, temperature, max_tokens, stream } = req.body;
     
